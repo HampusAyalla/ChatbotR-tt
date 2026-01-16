@@ -21,10 +21,11 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
 
+//Tar emot request och svarar
 app.post("/chat", (req, res) => {
     const userInput = req.body.message;
 
-    const sql = "SELECT output FROM messages WHERE input = ?";
+    const sql = "SELECT output FROM chatter WHERE input = ?";
     db.query(sql, [userInput], (err, result) => {
         if (err) throw err;
 
@@ -34,6 +35,7 @@ app.post("/chat", (req, res) => {
             answer = result[0].output;
         }
 
+        //Skickar svar tillbaka 
         res.send(`
             <p><b>Du:</b> ${userInput}</p>
             <p><b>Chatbottis3000 :</b> ${answer}</p>
@@ -42,5 +44,6 @@ app.post("/chat", (req, res) => {
     });
 });
 
+//Startar server
 app.listen(3000, () => {
 });
